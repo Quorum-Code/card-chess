@@ -16,13 +16,18 @@ public class Clickable : MonoBehaviour
         
     }
 
-    public virtual void OnClick() 
+    public virtual void OnClick(MouseBehavior mb) 
     {
-        Debug.Log("Clicked!");
+        Debug.Log("OnClick()");
     }
 
-    public virtual void OnUnclick() 
+    public virtual void ClickHeld(MouseBehavior mb) 
     {
+        Debug.Log("ClickHeld()");
+    }
 
+    public virtual void OnUnclick(MouseBehavior mb) 
+    {
+        Debug.Log("OnUnclick()");
     }
 }

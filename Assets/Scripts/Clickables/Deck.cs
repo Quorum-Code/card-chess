@@ -15,7 +15,7 @@ public class Deck : Clickable
         }
     }
 
-    public override void OnClick()
+    public override void OnClick(MouseBehavior mb)
     {
         GameObject g = Instantiate(cardPrefab);
         g.transform.position = transform.position;
