@@ -27,19 +27,25 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         mainCam = Camera.main;
-        board = new Board(5, 5, 32, 32);
+        board = new Board(this, 5, 5, 32, 32);
         BuildBoardObjects();
 
         pieceBuilder.SetGameManager(this);
         pieceBuilder.BuildRook();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Vector2 v = mainCam.ScreenToWorldPoint(Input.mousePosition);
+        if (!isSetup) 
+        {
+            board.isSetup = false;
+            isSetup = true;
+        }
+    }
 
-        Debug.Log((int)v.x + " " + (int)v.y);
+    public void UpdatePieceObject(Piece piece)
+    {
+        
     }
 
     private void BuildBoardObjects() 
@@ -60,6 +66,33 @@ public class GameManager : MonoBehaviour
                 g.transform.localPosition = new Vector3(i - xOffset, j - yOffset, TileLevel);
             }
         }
+    }
+
+    public (int, int) MouseToBoardPos() 
+    {
+        Vector2 mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+
+        float fx = mousePos.x + board.width / 2f;
+        float fy = mousePos.y + board.length / 2f;
+
+        if (fx < 0 || fy < 0)
+            return (-1, -1);
+        else 
+            return ((int) fx, (int) fy);
+    }
+
+    public bool MovePiece(Piece piece) 
+    {
+        (int, int) pos = MouseToBoardPos();
+
+        if (board.isInBounds(pos))
+            return board.MovePiece(piece, pos);
+        else return false;
+    }
+
+    public void KillPiece(Piece piece)
+    {
+        Debug.Log("KilledPiece!");
     }
 
     public bool SelectPiece(Piece piece) 

@@ -48,7 +48,7 @@ public class Piece : Clickable
         }
         else 
         {
-            //gameManager.TryMovePiece(this);
+            gameManager.MovePiece(this);
         }
     }
 
